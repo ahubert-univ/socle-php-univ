@@ -1,2 +1,6 @@
 .idea
-portainer-data
+# exclude everything
+my-project/*
+
+# exception to the rule
+!my-project/.gitkeep
