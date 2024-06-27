@@ -38,7 +38,18 @@ make start
 ```
 
 Permet d'exécuter le projet. <br />
-Cette commande démarre les conteneurs `traefik` et `portainer` `nginx` `php`.
+Cette commande démarre les conteneurs `traefik` et `portainer` `php`.
+
+Pour réaliser un projet php:
+  * Créer un dossier dans my-project contenant un sous dossier public (my-php-project/public)
+  * Renseigner le nom du dossier dans le fichier docker-compose.yml  ligne 77  .
+```shell
+FOLDER=my-php-project
+```
+  * Pour si votre dossier public contient un fichier index.php et index.html le fichier html est prioritaire sur le php
+  * Si vous avez besoin de modifier php.ini. Créer un fichier php.ini à la racine de votre projet
+my-php-project/php.ini et ajouter uniquement les valeurs modifiées.
+  
 
 #### down
 
