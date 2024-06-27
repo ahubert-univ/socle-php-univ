@@ -1,0 +1,85 @@
+networks:
+  public-univ-dev:
+    external: true
+    name: public-univ-dev
+services:
+  traefik2:
+    image: traefik:2.11
+    networks:
+      - public-univ-dev
+    container_name: docker_univ_traefik
+    restart: unless-stopped
+    profiles:
+      - common
+    security_opt:
+      - no-new-privileges:true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"      
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik-univ=true
+      - traefik.http.routers.traefik-univ.tls=true
+      - traefik.http.routers.traefik-univ.rule=Host(`traefik.docker.localhost`)
+      - traefik.http.services.traefik-univ.loadbalancer.server.port=8080
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./traefik-data/configurations/dynamic.yml:/etc/traefik/dynamic_conf.yaml:ro
+      - ./traefik-data/traefik.yml:/etc/traefik/traefik.yaml:ro
+      - ./traefik-data/certs:/etc/certs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  portainer:
+    image: portainer/portainer-ce:alpine-sts
+    container_name: docker_univ_portainer
+    restart: unless-stopped
+    networks:
+      - public-univ-dev
+    profiles:
+      - common
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer-univ=true
+      - traefik.http.routers.portainer-univ.entrypoints=websecure
+      - traefik.http.routers.portainer-univ.rule=Host(`portainer.docker.localhost`)
+      - traefik.http.routers.portainer-univ.tls=true
+      - traefik.http.routers.portainer-univ.service=portainer-univ
+      - traefik.http.middlewares.portainer-univ.redirectscheme.scheme=https
+      - traefik.http.middlewares.portainer-univ.redirectscheme.permanent=true
+      - traefik.http.services.portainer-univ.loadbalancer.server.port=9000
+      - traefik.http.services.portainer-univ.loadbalancer.server.scheme=http
+  hello_word_univ:
+    container_name: demo_docker_univ_hello_word
+    image: tutum/hello-world
+    networks:
+      - public-univ-dev
+    profiles:
+      - test
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hello_word_univ.rule=Host(`hello.docker.localhost`)
+      - traefik.http.routers.hello_word_univ.tls=true
+  php-univ:
+    container_name: docker_univ_php
+    networks:
+      - public-univ-dev
+    build:
+      target: app_php_dev
+      context: ./
+    volumes:
+      - ./my-project:/var/www/html
+      - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
+    environment:
+      - FOLDER=my-new-project
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.php-univ.rule=Host(`php.docker.localhost`)
+      - traefik.http.services.php-univ.loadbalancer.server.port=80
+      - traefik.http.routers.php-univ.tls=true
+volumes:
+  portainer_data:

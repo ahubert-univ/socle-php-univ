@@ -1,0 +1,8 @@
+
+tls:
+  certificates:
+    - certFile: /etc/certs/docker.localhost.crt
+      keyFile: /etc/certs/docker.localhost.key
+
+    - certFile: /etc/certs/docker.devhost.crt
+      keyFile: /etc/certs/docker.devhost.key
