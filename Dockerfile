@@ -3,7 +3,6 @@ ARG COMPOSER_VERSION=2
 
 FROM composer:${COMPOSER_VERSION} as composer
 FROM mlocati/php-extension-installer:latest AS php_extension_installer
-
 FROM php:${PHP_VERSION}-fpm-alpine AS app_php_prod
 
 ENV PHP_VERSION $PHP_VERSION
@@ -51,7 +50,8 @@ ENTRYPOINT ["docker-entrypoint"]
 
 ## ClEAN
 RUN rm -rf /tmp/* /var/cache/apk/* /var/tmp/*
-LABEL authors="niji-dsf"
+
+LABEL authors="ahubert"
 
 FROM app_php_prod AS app_php_dev
 
@@ -66,7 +66,6 @@ COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/b
 
 COPY tools/docker/scripts /opt/scripts
 RUN chmod +x /opt/scripts/*.sh
-
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 ## XDEBUG
