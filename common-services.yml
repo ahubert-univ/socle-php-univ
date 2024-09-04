@@ -9,12 +9,11 @@ services:
       - public-univ-dev
     container_name: docker_univ_traefik
     restart: unless-stopped
-    profiles:
-      - common
+    profiles: ['runner']
     security_opt:
       - no-new-privileges:true
     extra_hosts:
-      - "host.docker.internal:host-gateway"      
+      - "host.docker.internal:host-gateway"
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik-univ=true
@@ -35,8 +34,7 @@ services:
     restart: unless-stopped
     networks:
       - public-univ-dev
-    profiles:
-      - common
+    profiles: ['runner']
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -53,6 +51,26 @@ services:
       - traefik.http.middlewares.portainer-univ.redirectscheme.permanent=true
       - traefik.http.services.portainer-univ.loadbalancer.server.port=9000
       - traefik.http.services.portainer-univ.loadbalancer.server.scheme=http
+  php:
+    container_name: my_socle_${PROJECT}_${DOCKER_ENV}
+    image: my_socle_${PROJECT}_${DOCKER_ENV}
+    user: ${CURRENT_UID:-1000}
+    profiles: ['runner']
+    networks:
+      - public-univ-dev
+    build:
+      context: ./
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    volumes:
+      - ./my-project/${PROJECT}:/var/www/html/${PROJECT}
+    env_file: "./my-project/${PROJECT}/socle.env"
+    labels:
+      - traefik.http.routers.php-niji.rule=Host(`${URL_LOCAL_WEBSITE}`)
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-debug}"
+      XDEBUG_CONFIG: "client_host=$IP_WSL_ETH"
+      PHP_IDE_CONFIG: "serverName=${URL_LOCAL_WEBSITE}"
   hello_word_univ:
     container_name: demo_docker_univ_hello_word
     image: tutum/hello-world
@@ -64,21 +82,3 @@ services:
       - traefik.enable=true
       - traefik.http.routers.hello_word_univ.rule=Host(`hello.docker.localhost`)
       - traefik.http.routers.hello_word_univ.tls=true
-  php-univ:
-    container_name: docker_univ_php
-    networks:
-      - public-univ-dev
-    build:
-      target: app_php_dev
-      context: ./
-    volumes:
-      - ./my-project:/var/www/html
-    environment:
-      - FOLDER=my-new-project
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.php-univ.rule=Host(`php.docker.localhost`)
-      - traefik.http.services.php-univ.loadbalancer.server.port=80
-      - traefik.http.routers.php-univ.tls=true
-volumes:
-  portainer_data:

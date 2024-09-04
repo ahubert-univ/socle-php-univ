@@ -1,0 +1,15 @@
+networks:
+  public-dev:
+    external: true
+    name: public-dev
+services:
+  build-php:
+    profiles: ['build']
+    image: socle-php-${PROJECT}-${PHP_VERSION}-${DOCKER_ENV}:1.0
+    build:
+      target: app_php_dev
+      context: ./
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    environment:
+      URL_LOCAL_WEBSITE: ${URL_LOCAL_WEBSITE}
