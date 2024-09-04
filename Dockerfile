@@ -10,6 +10,20 @@ ENV COMPOSER_VERSION $COMPOSER_VERSION
 ENV DOCKER_ENV "prod"
 ENV SYMFONY_LOCAL_SERVER false
 
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
+
+# installing required extensions
+RUN apk update && \
+    apk add bash build-base gcc wget git autoconf libmcrypt-dev libzip-dev zip \
+    g++ make openssl-dev \
+    php83-openssl \
+    php83-pdo_mysql \
+    php83-mbstring
+
+RUN pecl install mcrypt && \
+    docker-php-ext-enable mcrypt
+
 WORKDIR /var/www/html
 
 #Add user
