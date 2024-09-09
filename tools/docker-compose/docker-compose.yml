@@ -1,18 +1,8 @@
 networks:
-  public-univ-dev:
+  public-dev:
     external: true
-    name: public-univ-dev
-volumes:
-  portainer_data:
+    name: public-dev
 services:
-  app_traefik:
-    extends:
-      file: ../../common-services.yml
-      service: traefik2
-  app_portainer:
-    extends:
-      file: ../../common-services.yml
-      service: portainer
   app_php:
     extends:
       file: ../../common-services.yml

@@ -1,7 +1,7 @@
 networks:
   public-dev:
     external: true
-    name: public-dev
+    name: public-univ-dev
 services:
   build-php:
     profiles: ['build']
