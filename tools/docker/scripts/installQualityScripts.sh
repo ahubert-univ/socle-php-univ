@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd "/var/www/html/$1"
+cd "/var/www/html/$1/application"
 
 execute_composer=false
 
@@ -50,5 +50,10 @@ if ! package_exist_grumphp; then
 fi
 
 if $execute_composer; then
-  composer install
+    if [[ ! -f composer.lock ]]
+    then
+      composer install
+    else
+      composer update
+    fi
 fi
