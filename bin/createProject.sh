@@ -132,7 +132,7 @@ then
     exit 1
 fi
 
-framework_supported=(false "symfony")
+framework_supported=(false "symfony" "laravel")
 
 
 if printf '%s\0' "${framework_supported[@]}" | grep -qwz $framework

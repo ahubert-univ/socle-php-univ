@@ -50,7 +50,7 @@ if ! package_exist_grumphp; then
 fi
 
 if $execute_composer; then
-    if [[ ! -f symfony.lock ]]
+    if [[ ! -f composer.lock ]]
     then
       composer install
     else

@@ -18,6 +18,10 @@ then
    firstLaunch=true
    composer create-project symfony/skeleton:"$SYMFONY_VERSION.*" .
    composer require webapp
+elif [[ "$FRAMEWORK" == "laravel" && ! -f composer.json ]]
+then
+    firstLaunch=true
+    composer create-project laravel/laravel .
 elif [ -f composer.json ]
 then
       composer install --prefer-dist --no-progress --no-interaction --no-scripts
