@@ -5,7 +5,7 @@ networks:
 services:
   build-php:
     profiles: ['build']
-    image: socle-php-${PROJECT}-${PHP_VERSION}-${DOCKER_ENV}:1.0
+    image: socle-php-univ-${PHP_VERSION}-${DOCKER_ENV}:1.0
     build:
       target: app_php_dev
       context: ./
