@@ -13,6 +13,14 @@ Pour faire fonctionner cette stack vous devez:
 - Instaler **dans votre linux WSL make**
   - `sudo apt-get update`
   - `sudo apt-get install make`
+  
+
+- Installer **dans votre linux wsl DIG**
+  - `sudo apt-get update`
+  - `sudo apt-get install dnsutils`
+  
+
+- Installer le socle niji https://gitlab.niji.fr/dsf/docker-dev-host
 
 # Créer Votre premier projet php !
 
@@ -26,7 +34,7 @@ Pour créer un nouveau projet il suffit:
         Pour la modifier utiliser option make create_project ... env="dev-prod"
       - Les addons de qualitée sont chargés par defaut
         Pour les desactiver utiliser l'option make create_project ... enable_quality="false"
-      - PhpVersion par defaut est 8.3-fpm
+      - PhpVersion par defaut est 8.2
         Pour modifier la version  make create_project ... phpversion="8.3"
         ATTENTION LES VERSIONS INF A 8.0 ne fontionne par pour des raisons de xdebug
       - Désactiver le webserver par defaut on utilise le webserver symfony
