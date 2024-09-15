@@ -34,11 +34,11 @@ check_parameter:
 	@[ "${project}" ] && echo "all good" || ( echo "project is not set"; exit 1 )
 
 exist-image:
-	@[ $(shell docker images -q socle-php-univ-$(project)-$(phpversion)-$(env):1.0 2> /dev/null) ] && echo "all good" || ( echo "image not build please launch create_php project"; exit 1 )
+	@[ $(shell docker images -q my_socle_univ_$(project)_$(env) 2> /dev/null) ] && echo "all good" || ( echo "image my_socle_univ_$(project)_$(env) not build please launch create_php project"; exit 1 )
 
 build-image:
 	@set -e; \
-	ENABLE_LOCAL_SERVER=$(enable_local_webserser) DOCKER_ENV=$(env) URL_LOCAL_WEBSITE=$(url_website) INSTALL_QUALITY_TOOLS=$(enable_quality) PROJECT=$(project) PHP_VERSION=$(phpversion) $(DOCKER_COMP) -f docker-compose.admin.yml build build-php; \
+	ENABLE_LOCAL_SERVER=$(enable_local_webserser) DOCKER_ENV=$(env) URL_LOCAL_WEBSITE=$(url_website) INSTALL_QUALITY_TOOLS=$(enable_quality) PROJECT=$(project) PHP_VERSION=$(phpversion) $(DOCKER_COMP) -f docker-compose.admin.yml build build-php ; \
 	ENABLE_LOCAL_SERVER=$(enable_local_webserser) DOCKER_ENV=$(env) URL_LOCAL_WEBSITE=$(url_website) PROJECT=$(project) PHP_VERSION=$(phpversion) $(DOCKER_COMP) -f my-project/$(project)/docker-compose.yml build app_php
 
 down: ## Stop the stack-php stack
