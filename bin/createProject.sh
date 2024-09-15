@@ -38,7 +38,7 @@ function writeDockerfile {
   done
 
   ### WRITE LOCAL DOKERFILE
-  echo -e "FROM socle-php-$project-$phpversion-$env:1.0 AS my_socle_$project_$env
+  echo -e "FROM socle-php-univ-$phpversion-$env:1.0
 # installing required extensions
 RUN apk update
 RUN apk add php${phpversion//.}-opcache php${phpversion//.}-pdo_mysql

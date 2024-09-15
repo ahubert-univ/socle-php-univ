@@ -52,8 +52,8 @@ services:
       - traefik.http.services.portainer-univ.loadbalancer.server.port=9000
       - traefik.http.services.portainer-univ.loadbalancer.server.scheme=http
   php:
-    container_name: my_socle_${PROJECT}_${DOCKER_ENV}
-    image: my_socle_${PROJECT}_${DOCKER_ENV}
+    container_name: container_${PROJECT}_${DOCKER_ENV}
+    image: my_socle_univ_${PROJECT}_${DOCKER_ENV}
     user: ${CURRENT_UID:-1000}
     profiles: ['runner']
     networks:
