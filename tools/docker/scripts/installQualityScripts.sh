@@ -9,7 +9,7 @@ execute_composer=false
 if [ ! -f composer.json ]
 then
  echo "create composer.json"
- composer init --name "socleniji/php" --version "1.0" --description "socle php niji"
+ composer init --name "socleuniv/php" --version "1.0" --description "socle php "
 fi
 
 package_exist_grumphp() {

@@ -17,7 +17,7 @@ symfony_version :=7.1
 -include my-project/$(project)/socle.env
 
 ## —— 🎵 🐳 Php stack Makefile 🐳 🎵 ——————————————————————————————————
-start: down exist-image network check_parameter ## Start the stack-php make start project=<folder>
+start:  exist-image network check_parameter ## Start the stack-php make start project=<folder>
 	@set -e; \
  	if [ ! -d "my-project/$(project)" ]; then \
 		echo "Directory not exist please create project or add correct argument make start <project>"; \
